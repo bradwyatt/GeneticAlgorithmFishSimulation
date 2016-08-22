@@ -1,9 +1,8 @@
 """
 Created by Brad Wyatt
 """
-import pygame, random, sys, math, DNA
+import pygame, random, sys, math, DNA, os
 from pygame.locals import *
-from genmenu import *
 running = True #Flags game as on
 menuOn = 1
 firstMessage = 1
@@ -69,116 +68,7 @@ def quit():
     print 'Thanks for playing'
     sys.exit()
 
-def startplaceholder(screen):
-    global menuOn, keys
-    Rooms = []
-    Rooms.append(Room())
-    menuOn = 0
-    keys = [False, False, False, False]
-    pass
-
-def infoplaceholder(screen):
-    global menuOn
-    menuOn = 4
-    pass
-
-class Menu(object):
-    def __init__(self,screen):
-        self.screen = screen
-        self.title = startMenu
-        self.menu = genmenu(['START', lambda: startplaceholder(screen)],['INFO', lambda: infoplaceholder(screen)], ['QUIT', lambda: quit()])
-        self.menu.changeFont('oceanfont.ttf',28)
-        self.menu.position(430,190)
-        self.menu.defaultColor((0,0,0))
-        self.menu.choiceColor((255,255,255))
-        self.clock = pygame.time.Clock()
-        event = pygame.event.get()
-        self.menu.create(self.screen)
-        self.menu.choose(event)
-        self.main_loop()
-
-    def main_loop(self):
-        global menuOn
-        while menuOn == 1:
-            self.clock.tick(fps)
-            events = pygame.event.get()
-            self.menu.choose(events)
-            self.screen.blit(self.title, (0, 0))
-            highScoreText = oceanFontMain.render("High Score: "+str(get_high_score()), 1, (243,189,0))
-            self.screen.blit(highScoreText, (550, 240))
-            self.menu.create(self.screen)
-            pygame.display.flip()
-            for event in events:
-                if event.type == QUIT:
-                    sys.exit()
-                    
-class InfoScreen(object):
-    def __init__(self,screen):
-        self.screen = screen
-        self.title = infoScreen
-        self.clock = pygame.time.Clock()
-        event = pygame.event.get()
-        self.main_loop()
-
-    def main_loop(self):
-        global menuOn
-        while menuOn == 4:
-            self.clock.tick(60)
-            self.screen.blit(self.title, (0, 0))
-            events = pygame.event.get()
-            pygame.display.flip()
-            for event in events:
-                if event.type == QUIT:
-                    sys.exit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == K_ESCAPE:
-                        menuOn = 1
-
-class GameOver(object):
-    def __init__(self,screen):
-        self.screen = screen
-        self.title = gameOver
-        self.clock = pygame.time.Clock()
-        event = pygame.event.get()
-        self.main_loop()
-
-    def main_loop(self):
-        global menuOn
-        while menuOn == 2:
-            self.clock.tick(60)
-            events = pygame.event.get()
-            self.screen.blit(self.title, (0, 0))
-            if(highScore == get_high_score()):
-                highScoreText = oceanFontGameOver.render("High Score!", 1, (0,0,0))
-                self.screen.blit(highScoreText, (50, 260))
-            else:
-                highScoreText = oceanFontGameOver.render("Try Again!", 1, (0,0,0))
-                self.screen.blit(highScoreText, (50, 270))
-            highScoreText = arialFont.render("Personal Best: "+str(get_high_score()), 1, (0,0,0))
-            self.screen.blit(highScoreText, (50, 220))
-            bestGenText = arialFont.render("Best Generation For This Population Breeding: "+str(bestGeneration), 1, (0,0,0))
-            self.screen.blit(bestGenText, (50, 360))
-            pygame.display.flip()
-            for event in events:
-                if event.type == QUIT:
-                    sys.exit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == K_ESCAPE:
-                        reset()
-                        menuOn = 1
-
-def resumeplaceholder(screen):
-    global menuOn, keys
-    menuOn = 0
-    keys = [False, False, False, False]
-
-def mainmenuplaceholder(screen):
-    global menuOn
-    menuOn = 1
-    pass
-
 def getNextPop(candidates, sizeOfNextPop):
-
     sumFitness = 0
     #Initialize an array that will hold the probabilities of each candidate being chosen
     candidateProbs = ['' for i in range(len(candidates))]
@@ -292,34 +182,6 @@ def mutate(genes):
             newGenes += gene
     #Return the new genotype
     return newGenes
-
-class PauseScreen(object):
-    def __init__(self,screen):
-        self.screen = screen
-        self.title = bgwater
-        self.menu = genmenu(['Resume', lambda: resumeplaceholder(screen)],['End Game', lambda: mainmenuplaceholder(screen)])
-        self.menu.changeFont('oceanfont.ttf',28)
-        self.menu.position(430,190)
-        self.menu.defaultColor((0,0,0))
-        self.menu.choiceColor((255,255,255))
-        self.clock = pygame.time.Clock()
-        event = pygame.event.get()
-        self.menu.create(self.screen)
-        self.menu.choose(event)
-        self.main_loop()
-
-    def main_loop(self):
-        global menuOn
-        while menuOn == 3:
-            self.clock.tick(60)
-            events = pygame.event.get()
-            self.menu.choose(events)
-            self.screen.blit(self.title, (0, 0))
-            self.menu.create(self.screen)
-            pygame.display.flip()
-            for event in events:
-                if event.type == QUIT:
-                    sys.exit()
 
 class Wall(pygame.sprite.Sprite):
     def __init__(self):
@@ -506,57 +368,13 @@ def reset():
         else:
             sharks[i].rect.topleft = (screenWidth-100, random.randrange(100, screenHeight-100))
 
-    
-def get_high_score():
-    #Default high score
-    high_score = 0
-    #Try to read the high score from a file
-    try:
-        high_score_file = open("high_score.txt", "r")
-        high_score = int(high_score_file.read())
-        high_score_file.close()
-    except IOError:
-        #Error reading file, no high score
-        pass
-    except ValueError:
-        #There's a file there, but we don't understand the number.
-        print("Error Reading High Score. Please delete high_score.txt in the game folder.")
-    return high_score
-    
-def save_high_score(new_high_score):
-    try:
-        # Write the file to disk
-        high_score_file = open("high_score.txt", "w")
-        high_score_file.write(str(new_high_score))
-        high_score_file.close()
-    except IOError:
-        pass
-    #Try to read the high score from a file
-    try:
-        high_score_file = open("high_score.txt", "r")
-        high_score = int(high_score_file.read())
-        high_score_file.close()
-    except IOError:
-        #No high score yet
-        print("There is no high score yet.")
-    except ValueError:
-        #Bad number formatting in file
-        print("Error Reading High Score. Please delete high_score.txt in the game folder.")
-    return high_score
-
 nextPopDNA = []
 score = 0
 generation=0
+
 #Init
 pygame.init()
 
-
-def degreesToRadians(deg):
-    return deg/180.0 * math.pi
-
-
-    
-    
 screen = pygame.display.set_mode((screenWidth, screenHeight))
 pygame.display.set_caption("Fish Food")
 spr_wall = load_image("sprites/wall.bmp", "spr_wall", True, False)
@@ -579,16 +397,8 @@ arrow_warning_blue = load_image("sprites/arrowwarningblue.png", "arrow_warning_b
 spr_seaweed = load_image("sprites/seaweed.png", "spr_seaweed", True, True)
 #font and texts
 oceanFont = pygame.font.Font("fonts/oceanfont.ttf", 16)
-oceanFontMain = pygame.font.Font("fonts/oceanfont.ttf", 48)
-oceanFontGameOver = pygame.font.Font("fonts/oceanfont.ttf", 76)
 arialFont = pygame.font.SysFont('Arial', 32)
 #backgrounds
-startMenu = pygame.image.load("sprites/startmenu.png").convert()
-startMenu = pygame.transform.scale(startMenu, (screenWidth, screenHeight))
-infoScreen = pygame.image.load("sprites/infoscreen.bmp").convert()
-infoScreen = pygame.transform.scale(infoScreen, (screenWidth, screenHeight))
-gameOver = pygame.image.load("sprites/gameover.png").convert()
-gameOver = pygame.transform.scale(gameOver, (screenWidth, screenHeight))
 ground = pygame.image.load("sprites/ground.bmp").convert()
 ground = pygame.transform.scale(ground, (screenWidth, 100))
 bgwater = pygame.image.load("sprites/background.bmp").convert()
@@ -612,11 +422,6 @@ snd_siren = load_sound("sounds/siren.wav", "snd_siren")
 sounds["snd_siren"].set_volume(.15)
 snd_sharkincoming = load_sound("sounds/sharkincoming.wav", "snd_sharkincoming")
 sounds["snd_sharkincoming"].set_volume(.05)
-#music loop
-#pygame.mixer.music.load("sounds/gamemusic.mp3")
-#pygame.mixer.music.set_volume(.2)
-#pygame.mixer.music.play(-1)
-#Main
 
 deadList = []
 redfishes = pygame.sprite.Group()
@@ -633,39 +438,24 @@ for countOrganism in range(POPSIZE):
 for i in range(0,len(arcsList)):
     redfishes.sprites()[i].arcIndex = i
 
+Rooms = Room()
+#music loop
+#pygame.mixer.music.load("sounds/gamemusic.mp3")
+#pygame.mixer.music.set_volume(.2)
+#pygame.mixer.music.play(-1)
+#Main
+
 while running:
     if(firstMessage == 1):
         print "Please ignore the errors."
         firstMessage = 0
     clock.tick(60)
     displayCaption()
-    if menuOn == 1: #Menu Screen
-        Menu(screen)
-    elif menuOn == 2: #Gameover Screen
-        high_score = get_high_score()
-        if highScore > high_score:
-            save_high_score(highScore)
-        GameOver(screen)
-        nextPopDNA = []
-        score = 0
-        generation=0
-    elif menuOn == 3:
-        PauseScreen(screen)
-    elif menuOn == 4:
-        InfoScreen(screen)
     if(scoreBlit > 0): #Score Timer above player sprite
         scoreDisappearTimer += 1
     for event in pygame.event.get():
         if event.type == QUIT:
             running = False
-        if event.type == pygame.KEYDOWN:
-            if event.key == K_ESCAPE:
-                for i in range(0, len(sounds)):
-                    soundslist = sounds.keys() #returns list of keys in sounds
-                    sounds[soundslist[i]].stop() #stops all sounds when go to menu
-                menuOn = 3
-            elif event.key==K_TAB:
-                menuOn = 2
     allsprites.update()
     #water background movement
     y1 += 10
@@ -751,7 +541,6 @@ while running:
                 redfishes.sprites()[i].arcIndex = i
             #Clear the list for the next generation
             nextPopDNA = []
-
             generation += 1
             reset()
             deadList = []
@@ -766,9 +555,7 @@ while running:
                 redfishes.remove(redFish)
                 deadList.append((redFish, score))
                 arcsList[redFish.arcIndex].destroy = 1
-                
     #Test Print Code: FOR DEBUGGING PURPOSES BELOW:
-    
     
     pygame.display.flip()
     pygame.display.update()
