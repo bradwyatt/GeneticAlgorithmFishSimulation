@@ -368,6 +368,7 @@ def reset():
         else:
             sharks[i].rect.topleft = (screenWidth-100, random.randrange(100, screenHeight-100))
 
+
 nextPopDNA = []
 score = 0
 generation=0
@@ -497,64 +498,65 @@ while running:
                 shark.collision_with_wall(wall)
                 break
             
-        #Compute game logic
-        #If there are no more living Organisms, the generation is over
-        #Compute statistics and generate DNA for next generation
-        if len(redfishes) == 0:
-            #Sort the list of dead organisms by their score
-            deadList.sort(key=lambda item: item[1])
-            #Pass the list of dead organisms to be used for deciding the next generation
-            nextPopDNA = getNextPop(deadList, (POPSIZE-2))
-            #Print some helpful information for watching the DNA change each generation
-            print "Top 50% for generation " + str(generation+1)
-            print "Size | Speed | FreqTurns | RadiusArc | Intelligence | Score"
-            sumScores = 0
-            #Print the genotypes of the top 50% of this generation and their scores
-            for n in range(int(len(deadList)*0.5)):
-                temp = deadList[-(n+1)]
-                sumScores += temp[1]
+    #Compute game logic
+    #If there are no more living Organisms, the generation is over
+    #Compute statistics and generate DNA for next generation
+    if len(redfishes) == 0:
+        #Sort the list of dead organisms by their score
+        deadList.sort(key=lambda item: item[1])
+        #Pass the list of dead organisms to be used for deciding the next generation
+        nextPopDNA = getNextPop(deadList, (POPSIZE-2))
+        #Print some helpful information for watching the DNA change each generation
+        print "Top 50% for generation " + str(generation+1)
+        print "Size | Speed | FreqTurns | RadiusArc | Intelligence | Score"
+        sumScores = 0
+        #Print the genotypes of the top 50% of this generation and their scores
+        for n in range(int(len(deadList)*0.5)):
+            temp = deadList[-(n+1)]
+            sumScores += temp[1]
 
-                print temp[0].genes.getGenotype() + " " + str(temp[1])
+            print temp[0].genes.getGenotype() + " " + str(temp[1])
 
-            #Print the average score for this generation
-            print "Avg score: " + str(sumScores/float(len(deadList)))
-            print ""
-            avgScore = sumScores/float(len(deadList))
-            if avgScore > highScore:
-                highScore = int(avgScore)
-                bestGeneration = generation
+        #Print the average score for this generation
+        print "Avg score: " + str(sumScores/float(len(deadList)))
+        print ""
+        avgScore = sumScores/float(len(deadList))
+        if avgScore > highScore:
+            highScore = int(avgScore)
+            bestGeneration = generation
 
-            #Take the top 2 performing Organisms from this generation and add them to the next population
-            eliteCloneList = [deadList[-1][0].genes.getGenotypeString(), deadList[-2][0].genes.getGenotypeString()]
-            nextPopDNA.append(deadList[-1][0].genes.getGenotypeString())
-            nextPopDNA.append(deadList[-2][0].genes.getGenotypeString())
-            #Set flag to end game loop
-            #Create a new list of Organisms, using the generated DNA, all at random locations
-            arcsList = []
-            redfishes = pygame.sprite.Group()
-            for genes in nextPopDNA:
-                d = DNA.DNA(NUMGENES, genes)
-                o = RedFish(d)
-                redfishes.add(o)
-                arcsList.append(Arc())
-            for i in range(0,POPSIZE):
-                redfishes.sprites()[i].arcIndex = i
-            #Clear the list for the next generation
-            nextPopDNA = []
-            generation += 1
-            reset()
-            deadList = []
-            score = 0
-        #Increase score by 1
-        score += 1
-        #For each Organism that's still alive
-        for redFish in redfishes:
-            #Check if it is still alive
-            if not redFish.stillAlive():
-                #If not, remove it from the list, and add it to the list of dead Organisms
-                redfishes.remove(redFish)
-                deadList.append((redFish, score))
-                arcsList[redFish.arcIndex].destroy = 1
+        #Take the top 2 performing Organisms from this generation and add them to the next population
+        eliteCloneList = [deadList[-1][0].genes.getGenotypeString(), deadList[-2][0].genes.getGenotypeString()]
+        nextPopDNA.append(deadList[-1][0].genes.getGenotypeString())
+        nextPopDNA.append(deadList[-2][0].genes.getGenotypeString())
+        #Set flag to end game loop
+        #Create a new list of Organisms, using the generated DNA, all at random locations
+        arcsList = []
+        redfishes = pygame.sprite.Group()
+        for genes in nextPopDNA:
+            d = DNA.DNA(NUMGENES, genes)
+            o = RedFish(d)
+            redfishes.add(o)
+            arcsList.append(Arc())
+        for i in range(0,POPSIZE):
+            redfishes.sprites()[i].arcIndex = i
+        #Clear the list for the next generation
+        nextPopDNA = []
+        generation += 1
+        reset()
+        deadList = []
+        score = 0
+    #Increase score by 1
+    score += 1
+    #For each Organism that's still alive
+    for redFish in redfishes:
+        #Check if it is still alive
+        if not redFish.stillAlive():
+            #If not, remove it from the list, and add it to the list of dead Organisms
+            redfishes.remove(redFish)
+            deadList.append((redFish, score))
+            arcsList[redFish.arcIndex].destroy = 1
+
     #Test Print Code: FOR DEBUGGING PURPOSES BELOW:
     
     pygame.display.flip()
