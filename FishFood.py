@@ -4,13 +4,11 @@ Created by Brad Wyatt
 import pygame, random, sys, math, DNA, os
 from pygame.locals import *
 running = True #Flags game as on
-menuOn = 1
 firstMessage = 1
 Rooms = []
 (screenWidth, screenHeight) = 1200, 800
 POPSIZE=20
 NUMGENES = 22
-scoreBlit = 0
 highScore = 0
 bestGeneration = 0
 fps = 60
@@ -452,8 +450,6 @@ while running:
         firstMessage = 0
     clock.tick(60)
     displayCaption()
-    if(scoreBlit > 0): #Score Timer above player sprite
-        scoreDisappearTimer += 1
     for event in pygame.event.get():
         if event.type == QUIT:
             running = False
@@ -497,7 +493,10 @@ while running:
             if shark.rect.colliderect(wall.rect):
                 shark.collision_with_wall(wall)
                 break
-            
+    
+    if(score == 10):
+        pygame.image.save(screen, "Generation " + str(generation) + " screenshot.jpeg")
+    
     #Compute game logic
     #If there are no more living Organisms, the generation is over
     #Compute statistics and generate DNA for next generation
@@ -524,6 +523,8 @@ while running:
         if avgScore > highScore:
             highScore = int(avgScore)
             bestGeneration = generation
+        else:
+            os.remove("Generation " + str(generation) + " screenshot.jpeg")
 
         #Take the top 2 performing Organisms from this generation and add them to the next population
         eliteCloneList = [deadList[-1][0].genes.getGenotypeString(), deadList[-2][0].genes.getGenotypeString()]
@@ -538,6 +539,7 @@ while running:
             o = RedFish(d)
             redfishes.add(o)
             arcsList.append(Arc())
+        print redfishes.sprites()
         for i in range(0,POPSIZE):
             redfishes.sprites()[i].arcIndex = i
         #Clear the list for the next generation
@@ -548,6 +550,8 @@ while running:
         score = 0
     #Increase score by 1
     score += 1
+    #Take screenshot of best generation
+
     #For each Organism that's still alive
     for redFish in redfishes:
         #Check if it is still alive
