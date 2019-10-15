@@ -10,7 +10,7 @@ As a result, The fish last longer before being eaten as time goes on.
 
 ## Observing Fish Generations Over Time
 
-### Generation 0
+### Generation 0 (START)
 <p align="center">
 <img src="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation/blob/master/Docs/Generation0.jpeg" height="300", width="400"></img>
 <img src="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation/blob/master/Docs/generation0_score.PNG"></img>
