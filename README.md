@@ -57,4 +57,4 @@ Compared to previous generations:
 - High intelligence
 
 ## References
-Algorithm code was from https://github.com/HanaAuana/PyWorld
+Genetic Algorithm code was from https://github.com/HanaAuana/PyWorld (Initiation of DNA in objects)
