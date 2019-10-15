@@ -8,14 +8,14 @@ The goal (dependent variable) is for the population of red fish to evolve by dev
 
 As a result, The fish last longer before being eaten as time goes on.
 
-## Example with Scoring
+## Observing Fish Generations Over Time
 
 ### Generation 0
 <p align="center">
 <img src="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation/blob/master/Docs/Generation0.jpeg" height="300", width="400"></img>
 <img src="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation/blob/master/Docs/generation0_score.PNG"></img>
 </p>
-Start of the simulation 
+Start of the simulation: 
 
 - The Top 50% output (to the left) was produced after the red fish were all eaten by sharks 
 - The red fish with the highest scores have very random traits
