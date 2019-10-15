@@ -11,6 +11,8 @@ As a result, The fish last longer before being eaten as time goes on.
 ## Examples
 
 ### Example 1
-
+<p align="center">
+<img src="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation/blob/master/Docs/Generation0.jpeg"></img>
+</p>
 ## References
 Algorithm code was from https://github.com/HanaAuana/PyWorld
