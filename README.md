@@ -16,6 +16,7 @@ As a result, The fish last longer before being eaten as time goes on.
 <img src="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation/blob/master/Docs/generation0_score.PNG"></img>
 </p>
 Start of the simulation 
+
 - The Top 50% output (to the left) was produced after the red fish were all eaten by sharks 
 - The red fish with the highest scores have very random traits
 
@@ -25,6 +26,7 @@ Start of the simulation
 <img src="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation/blob/master/Docs/generation48_score.PNG"></img>
 </p>
 Compared to previous generations:
+
 - Size tends to decrease
 - Speed is very slow
 - Radius arc slightly higher
@@ -36,6 +38,7 @@ Compared to previous generations:
 <img src="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation/blob/master/Docs/generation241_score.PNG"></img>
 </p>
 Compared to previous generations:
+
 - Size slightly increases
 - Speed remains slow
 - Turn frequency significantly higher
@@ -47,6 +50,7 @@ Compared to previous generations:
 <img src="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation/blob/master/Docs/generation909_score.PNG"></img>
 </p>
 Compared to previous generations:
+
 - Size extremely small
 - Speed very slow
 - Big radius arc
