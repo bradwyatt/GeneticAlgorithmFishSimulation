@@ -19,24 +19,18 @@ As a result, The fish last longer before being eaten as time goes on.
 ### Generation 48
 <p align="center">
 <img src="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation/blob/master/Docs/Generation48.jpeg" height="300", width="400"></img>
-</p>
-<p align="center">
 <img src="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation/blob/master/Docs/generation48_score.PNG"></img>
 </p>
 
 ### Generation 241
 <p align="center">
 <img src="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation/blob/master/Docs/Generation241.jpeg" height="300", width="400"></img>
-</p>
-<p align="center">
 <img src="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation/blob/master/Docs/generation241_score.PNG"></img>
 </p>
 
 ### Generation 909 (MAX)
 <p align="center">
 <img src="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation/blob/master/Docs/Generation909.jpeg" height="300", width="400"></img>
-</p>
-<p align="center">
 <img src="https://github.com/bradwyatt/GeneticAlgorithmFishSimulation/blob/master/Docs/generation909_score.PNG"></img>
 </p>
 
