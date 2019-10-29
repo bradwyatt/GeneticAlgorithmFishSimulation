@@ -1,3 +1,6 @@
+"""
+Taken from PyWorld
+"""
 import random
 
 # A class to hold a binary string representing the DNA of an organism
