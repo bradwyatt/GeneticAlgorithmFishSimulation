@@ -1,5 +1,24 @@
 # Genetic Algorithm Fish Simulation
 
+## Setup
+
+This project now uses a modern `pygame` wheel (`2.6.1`) so it installs cleanly on current macOS and Python 3.11 without compiling SDL by hand.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install --upgrade pip
+python3 -m pip install -r requirements.txt
+python3 main.py
+```
+
+If you previously tried installing with `pygame==1.9.6`, recreate the environment or run:
+
+```bash
+python3 -m pip uninstall -y pygame
+python3 -m pip install -r requirements.txt
+```
+
 The goal (dependent variable) is for the population of red fish to evolve by developing traits that will help them survive for a longer period of time before being eaten by sharks.
 
 - The strongest 50% of each fish population mate, while the weakest are eliminated from the gene pool.  The blue fish are the top 2 fish from the previous generation.
