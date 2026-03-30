@@ -7,22 +7,14 @@ import random
 class DNA():
     #Takes an int representing the number of genes, and possibly an existing genotype to use
     def __init__(self, numGenes, existingGenes):
-
         self.numGenes = numGenes
         #If a genotype is given, use this
         if existingGenes is not None:
             self.dna = existingGenes
         #Else, create a random genotype
         else:
-            self.dna = ""
             #Randomly pick 1 or 0 for the required number of genes
-            for i in range(0, numGenes):
-                value = random.randint(0, 1)
-
-                if value == 0:
-                    self.dna += "0"
-                else:
-                    self.dna += "1"
+            self.dna = "".join(str(random.randint(0, 1)) for _ in range(numGenes))
     #Given a number, return the corresponding bit
     def getGene(self, num):
         return self.dna[num]
@@ -50,7 +42,4 @@ class DNA():
         return genes
     #Returns the genotype as a single contiguous string
     def getGenotypeString(self):
-        genes = ""
-        for i in range(0, len(self.dna)):
-            genes += self.dna[i]
-        return genes
+        return "".join(self.dna)
